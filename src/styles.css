@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+.active-link {
+    background-color: white !important;
+    pointer-events: none; /* para evitar hover cuando está activo */
+}

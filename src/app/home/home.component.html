@@ -1,0 +1,74 @@
+<section class="bg-gradient-to-r from-blue-600 to-[#1C39A6] text-white rounded-2xl p-6 shadow-md flex items-start gap-4">
+  <div class="text-5xl">🧠</div>
+  <div>
+    <h2 class="text-xl font-bold mb-1">Tip of the Day</h2>
+    <p class="text-sm leading-relaxed">{{ securityTip }}</p>
+  </div>
+</section>
+
+<div *ngIf="totalPasswords === 0" class="flex flex-col items-center justify-center text-center p-6">
+  <img src="/img/passwordIcon.png" alt="No passwords" class="w-64 mb-6 opacity-90" />
+  <h2 class="text-2xl font-semibold text-gray-700 mb-2">No passwords found</h2>
+  <p class="text-gray-500">Start by adding your first password to keep everything safe and organized.</p>
+  <a routerLink="/vault" class="text-blue-600 hover:underline hover:text-blue-800 transition">
+    Add passwords
+  </a>
+</div>
+
+<!-- Main Content -->
+<main *ngIf="totalPasswords > 0" id="dashboard-start" class="p-6 space-y-10 bg-gray-50 min-h-screen font-[Inter] max-w-7xl mx-auto scroll-smooth">
+
+  <!-- Stats and Chart -->
+  <section class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+    <!-- Stats + Directory Gallery -->
+    <div class="xl:col-span-3 space-y-6">
+      <!-- Estadísticas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-xl shadow border border-gray-200 p-6 text-center hover:shadow-md transition">
+          <div class="text-4xl font-bold text-blue-600">{{ totalPasswords }}</div>
+          <p class="text-sm text-gray-600 mt-1">Saved Passwords</p>
+        </div>
+        <div class="bg-white rounded-xl shadow border border-gray-200 p-6 text-center hover:shadow-md transition">
+          <div class="text-4xl font-bold text-yellow-500">{{ favoritePasswordCount }}</div>
+          <p class="text-sm text-gray-600 mt-1">Favorites</p>
+        </div>
+        <a routerLink="/vault" class="bg-gradient-to-r from-blue-600 to-[#1C39A6] text-white rounded-xl shadow p-6 text-center hover:shadow-lg transition">
+          <div class="text-4xl">🔒</div>
+          <div class="mt-1 font-semibold text-sm">Go to Vault</div>
+        </a>
+      </div>
+
+      <section class="bg-white text-gray-700 rounded-2xl shadow border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Directories</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          @for (directories of this.userDirectories; track $index) {
+            <a routerLink="/directories"
+               class="relative group rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-transform hover:scale-[1.02]">
+              <img [src]="directories.urlPic"
+                   alt="Directory Image"
+                   class="w-full h-40 md:h-44 object-cover transition group-hover:brightness-90" />
+              <div class="absolute bottom-0 left-0 w-full px-3 py-1.5 bg-white/70 backdrop-blur-md text-gray-800 text-sm font-semibold">
+                {{ directories.name }}
+              </div>
+            </a>
+          }
+        </div>
+      </section>
+    </div>
+
+    <!-- Chart -->
+    <div class="col-span-1">
+      <div class="bg-white border border-gray-200 rounded-xl p-6 shadow text-center">
+        <h5 class="text-lg font-semibold mb-2 text-gray-700">Password Strength</h5>
+        <p class="text-sm text-gray-500 mb-4">Weak, repeated and secure passwords</p>
+        <div class="flex justify-center items-center">
+          <div id="pie-chart" class="w-[180px] h-[265px]"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+

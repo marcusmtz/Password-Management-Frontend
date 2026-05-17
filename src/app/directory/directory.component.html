@@ -1,0 +1,90 @@
+    <!-- Create directory -->
+    <div class="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 mt-8 space-y-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Create Directory</h2>
+    
+        <div>
+        <label class="block text-sm font-medium text-gray-700">Directory´s name</label>
+        <input
+            [(ngModel)]="directory.name"
+            type="text"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Ej. Correo, Banca, Trabajo"
+        />
+        </div>
+    
+        <app-upload-directory-pic (fileSelected)="onFileSelected($event)"></app-upload-directory-pic>
+    
+        <button
+        [disabled]="isCreating"
+        (click)="createDirectory()"
+        class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition cursor-pointer"
+        >
+        {{ isCreating ? 'Creating...' : 'Creat Directory' }}
+        </button>
+    </div>
+    
+    <!-- Sección de directorios existentes -->
+    <div *ngIf="userDirectories.length > 0" class="mt-10">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Your Directories</h3>
+    
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div
+            *ngFor="let dir of userDirectories"
+            class="w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow transition hover:shadow-lg"
+        >
+            <img
+            class="rounded-t-xl object-cover w-full h-40"
+            [src]="dir.urlPic || 'https://placehold.co/400x200?text=Sin+Imagen'"
+            alt="Imagen del directorio"
+            />
+    
+            <div class="p-5 space-y-3">
+            <span class="inline-block px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded">
+                Directory
+            </span>
+    
+            <!-- Nombre editable -->
+            <div *ngIf="editingId !== dir.id; else editTemplate">
+                <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ dir.name }}</h5>
+            </div>
+    
+            <ng-template #editTemplate>
+                <input
+                type="text"
+                [(ngModel)]="dir.name"
+                class="border border-gray-300 rounded px-3 py-1 w-full text-sm focus:outline-none focus:ring focus:border-blue-400"
+                />
+            </ng-template>
+    
+            <!-- Botones -->
+            <div class="flex flex-wrap justify-between mt-4 gap-2">
+                <ng-container *ngIf="editingId !== dir.id; else editActions">
+                <button
+                    (click)="editingId = dir.id"
+                    class="w-full text-sm px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition cursor-pointer"
+                >
+                    Edit
+                </button>
+                </ng-container>
+    
+                <ng-template #editActions>
+                <button
+                    (click)="saveEdit(dir)"
+                    class="w-full text-sm px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+                >
+                    Save
+                </button>
+                </ng-template>
+    
+                <button
+                (click)="deleteDirectory(dir.id)"
+                class="w-full text-sm px-4 py-2 text-red-600 border border-red-600 rounded-lg hover:bg-red-50 transition cursor-pointer"
+                >
+                Delete
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    

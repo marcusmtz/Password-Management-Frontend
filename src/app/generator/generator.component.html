@@ -1,0 +1,175 @@
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-6">
+    Random Generator Password
+    </h2>
+
+    <!-- Input y botón copiar -->
+    <div class="space-y-6 max-w-xl mx-auto">
+    <div class="relative">
+        <input
+        type="text"
+        id="generator"
+        [(ngModel)]="generatedText"
+        class="w-full p-3 pr-12 text-sm rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Your random password"
+        />
+        <!-- Botones input -->
+        <div class="absolute top-1/2 right-3 -translate-y-1/2">
+        <button
+            type="button"
+            (click)="copyToClipboard()"
+            class="fill-gray-500 hover:fill-gray-800 cursor-pointer px-3"
+        >
+            <!-- Ícono copiar -->
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z"/></svg>
+        </button>
+        <button
+            type="button"
+            (click)="generate()"
+            class="fill-gray-500 hover:fill-gray-800 cursor-pointer"
+        >
+            <!-- Ícono generar -->
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.4 9.4c12.5-12.5 32.8-12.5 45.3 0l96 96c12.5 12.5 12.5 32.8 0 45.3l-96 96c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L338.7 160 128 160c-35.3 0-64 28.7-64 64l0 32c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-32C0 153.3 57.3 96 128 96l210.7 0L297.4 54.6c-12.5-12.5-12.5-32.8 0-45.3zm-96 256c12.5-12.5 32.8-12.5 45.3 0l96 96c12.5 12.5 12.5 32.8 0 45.3l-96 96c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 416 96 416c-17.7 0-32 14.3-32 32l0 32c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-32c0-53 43-96 96-96l146.7 0-41.4-41.4c-12.5-12.5-12.5-32.8 0-45.3z"/></svg>
+        </button>
+        </div>
+    </div>
+
+    <div>
+        <!-- Primer bloque: selección principal -->
+        <div
+        class="flex flex-col gap-4 mb-4 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow"
+        >
+        <p class="text-gray-700 dark:text-gray-200 font-medium text-lg">
+            What do you want to generate?
+        </p>
+
+        <div class="flex flex-col gap-3">
+            <label
+            class="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100"
+            >
+            <input
+                type="radio"
+                name="gen-type"
+                value="password"
+                [(ngModel)]="selectedOption"
+                class="accent-blue-600"
+            />
+            Password
+            </label>
+
+            <label
+            class="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100"
+            >
+            <input
+                type="radio"
+                name="gen-type"
+                value="user"
+                [(ngModel)]="selectedOption"
+                class="accent-blue-600"
+            />
+            Usuario
+            </label>
+        </div>
+        </div>
+
+        <!-- Segundo bloque: contenido dinámico -->
+        <div class="p-4 rounded bg-gray-50 dark:bg-gray-800">
+        <!-- Contenido si se selecciona Password -->
+        <div *ngIf="selectedOption === 'password'" class="flex flex-col gap-4">
+            <label class="text-gray-700 dark:text-gray-200 font-semibold"
+            >Longitud: {{ passwordLength }}</label
+            >
+            <input
+            type="range"
+            min="6"
+            max="32"
+            [(ngModel)]="passwordLength"
+            class="w-full accent-blue-600"
+            />
+
+            <label
+            class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded shadow"
+            >
+            <span class="text-gray-800 dark:text-gray-100 font-medium"
+                >Mayúsculas A-Z</span
+            >
+            <input
+                type="checkbox"
+                [(ngModel)]="useUppercase"
+                class="accent-blue-600"
+            />
+            </label>
+
+            <label
+            class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded shadow"
+            >
+            <span class="text-gray-800 dark:text-gray-100 font-medium"
+                >Minúsculas a-z</span
+            >
+            <input
+                type="checkbox"
+                [(ngModel)]="useLowercase"
+                class="accent-blue-600"
+            />
+            </label>
+
+            <label
+            class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded shadow"
+            >
+            <span class="text-gray-800 dark:text-gray-100 font-medium"
+                >Números 0-9</span
+            >
+            <input
+                type="checkbox"
+                [(ngModel)]="useNumbers"
+                class="accent-blue-600"
+            />
+            </label>
+
+            <label
+            class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded shadow"
+            >
+            <span class="text-gray-800 dark:text-gray-100 font-medium"
+                >Caracteres especiales !&#64;#$%^&*</span
+            >
+            <input
+                type="checkbox"
+                [(ngModel)]="useSymbols"
+                class="accent-blue-600"
+            />
+            </label>
+        </div>
+
+        <!-- Contenido si se selecciona User -->
+        <div *ngIf="selectedOption === 'user'" class="flex flex-col gap-3">
+            <p class="text-gray-700 dark:text-gray-200 font-medium text-lg">
+            What do you want to generate?
+            </p>
+            <label
+            class="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100"
+            >
+            <input
+                type="radio"
+                name="user-type"
+                value="username"
+                [(ngModel)]="userOption"
+                class="accent-blue-600"
+            />
+            Username
+            </label>
+
+            <label
+            class="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100"
+            >
+            <input
+                type="radio"
+                name="user-type"
+                value="email"
+                [(ngModel)]="userOption"
+                class="accent-blue-600"
+            />
+            Email
+            </label>
+        </div>
+        </div>
+    </div>
+    </div>
